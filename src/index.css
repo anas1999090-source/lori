@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --lori-bg: #ffffff;
+    --lori-surface: #f4f4f4;
+    --lori-ink: #111111;
+    --lori-muted: #9a9a9a;
+    --lori-green: #4a5f34;
+    --lori-sage: #a9bc93;
+    --lori-pink: #f4c2c2;
+    --lori-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html[dir='rtl'] body {
+    font-family: 'Cairo', 'Inter', sans-serif;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: #ffffff;
+  }
+}
+
+.font-display {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+html[dir='rtl'] .font-display {
+  font-family: 'Cairo', sans-serif;
+  letter-spacing: 0;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
+}
+
+html[dir='rtl'] .font-body {
+  font-family: 'Cairo', sans-serif;
+}
+
+/* Outlined category typography */
+.category-outlined {
+  color: transparent;
+  -webkit-text-stroke: 1px #c7c7c7;
+  transition: color 350ms var(--lori-ease), -webkit-text-stroke-color 350ms var(--lori-ease);
+}
+
+.category-outlined:hover {
+  -webkit-text-stroke-color: #111111;
+}
+
+.category-solid {
+  color: #111111;
+  -webkit-text-stroke: 0px transparent;
+}
+
+/* Gentle idle float for active hero product */
+@keyframes loriFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+.animate-lori-float {
+  animation: loriFloat 4.8s ease-in-out infinite;
+}
+
+/* Subtle floor shadow breathing synchronized with float */
+@keyframes loriShadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.24;
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.15;
+  }
+}
+
+.animate-lori-shadow {
+  animation: loriShadow 4.8s ease-in-out infinite;
+}
+
+/* Soft edge scroll mask for PDP vertical gallery */
+.gallery-scroll-mask {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gallery-scroll-mask::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbars cleanly for mobile horizontal category bar */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-lori-float,
+  .animate-lori-shadow {
+    animation: none;
+  }
+}

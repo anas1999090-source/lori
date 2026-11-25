@@ -1,0 +1,6 @@
+{
+  "name": "LORI — Natural Hair & Body Care",
+  "description": "Minimalist natural hair and body care formulated with frankincense, botanical oils, and pure keratin.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
