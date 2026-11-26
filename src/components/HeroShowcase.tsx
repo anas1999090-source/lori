@@ -16,12 +16,13 @@ interface HeroShowcaseProps {
   activeIndex: number;
   onChangeIndex: (index: number) => void;
   onOpenProduct: (product: Product) => void;
+  onOrderProduct: (product: Product) => void;
   language: Language;
   t: Translations;
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const CATEGORIES: CategoryFilter[] = ['SOAP', 'SHAMPOO', 'OILS', 'ALL'];
+const CATEGORIES: CategoryFilter[] = ['PACKS', 'SHAMPOO', 'OILS', 'KERATIN', 'ALL'];
 
 export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
   products,
@@ -33,6 +34,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
   activeIndex,
   onChangeIndex,
   onOpenProduct,
+  onOrderProduct,
   language,
   t,
 }) => {
@@ -54,7 +56,6 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
     onChangeIndex((safeIndex - 1 + products.length) % products.length);
   }, [products.length, safeIndex, onChangeIndex]);
 
-  // Keyboard navigation in carousel mode
   useEffect(() => {
     if (viewMode !== 'carousel') return;
     const handleKey = (e: KeyboardEvent) => {
@@ -75,7 +76,6 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
     return () => window.removeEventListener('keydown', handleKey);
   }, [viewMode, isRtl, goNext, goPrev]);
 
-  // Smooth debounced horizontal/trackpad wheel switching on carousel stage
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (viewMode !== 'carousel' || products.length <= 1) return;
     const primaryDelta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
@@ -92,7 +92,6 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
     }
   };
 
-  // Touch swipe handlers
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -128,7 +127,6 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
     }
   };
 
-  // Compute circular relative offset (-1, 0, +1, etc.)
   const getRelativeOffset = (idx: number): number => {
     const len = products.length;
     if (len <= 1) return 0;
@@ -143,7 +141,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
 
   return (
     <section className="relative mx-auto flex min-h-[calc(100vh-72px)] w-full max-w-[1440px] flex-col px-4 pb-10 pt-2 sm:px-8 lg:px-12">
-      {/* Top-right view mode toggle icons (Carousel / Grid) */}
+      {/* Top-right view mode toggle icons */}
       <div className="mb-3 flex items-center justify-end gap-2">
         <div
           role="group"
@@ -179,7 +177,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
         </div>
       </div>
 
-      {/* Main Layout: Left Category Column + Right Carousel/Grid Stage */}
+      {/* Left Category Column + Right Carousel/Grid Stage */}
       <div className="flex flex-1 flex-col lg:flex-row lg:items-center lg:gap-10">
         <CategorySidebar
           categories={CATEGORIES}
@@ -206,8 +204,8 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                 onTouchEnd={handleTouchEnd}
                 className="relative flex min-h-[470px] sm:min-h-[540px] lg:min-h-[590px] w-full flex-col items-center justify-center select-none overflow-hidden"
               >
-                {/* Floating product stage */}
-                <div className="relative flex h-[300px] sm:h-[360px] lg:h-[395px] w-full items-center justify-center">
+                {/* Floating transparent PNG product stage */}
+                <div className="relative flex h-[290px] sm:h-[360px] lg:h-[395px] w-full items-center justify-center">
                   {products.map((product, idx) => {
                     const offset = getRelativeOffset(idx);
                     const isCenter = offset === 0;
@@ -228,7 +226,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                           scale: isCenter ? 1 : 0.64,
                           opacity: isCenter ? 1 : 0.42,
                           filter: isCenter ? 'blur(0px)' : 'blur(10px)',
-                          rotate: isCenter ? -17 : offset < 0 ? -24 : -10,
+                          rotate: isCenter ? -14 : offset < 0 ? -22 : -8,
                           zIndex: isCenter ? 20 : 10,
                         }}
                         transition={{
@@ -244,7 +242,9 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                         }}
                         data-cursor="interactive"
                         className={`absolute flex flex-col items-center justify-center cursor-pointer ${
-                          isCenter ? 'w-[240px] sm:w-[300px] lg:w-[340px]' : 'w-[220px] sm:w-[270px] hidden sm:flex'
+                          isCenter
+                            ? 'w-[240px] sm:w-[300px] lg:w-[340px]'
+                            : 'w-[220px] sm:w-[270px] hidden sm:flex'
                         }`}
                       >
                         <div className={isCenter ? 'animate-lori-float w-full' : 'w-full'}>
@@ -259,12 +259,11 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                               label={product.shortName[language]}
                               accentColor={product.accentColor}
                               priority={isCenter}
-                              className="h-full w-full drop-shadow-[0_14px_24px_rgba(17,17,17,0.06)]"
+                              className="h-full w-full drop-shadow-[0_18px_28px_rgba(17,17,17,0.1)]"
                             />
                           </motion.div>
                         </div>
 
-                        {/* Soft grey elliptical shadow under each floating product */}
                         <div
                           aria-hidden="true"
                           className={`mt-2 h-4 w-[58%] rounded-[100%] bg-[#111111]/20 blur-md ${
@@ -275,14 +274,13 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                     );
                   })}
 
-                  {/* Subtle prev / next side arrows */}
                   {products.length > 1 && (
                     <>
                       <button
                         type="button"
                         onClick={isRtl ? goNext : goPrev}
                         aria-label="Previous product"
-                        className="cursor-pointer absolute start-1 sm:start-3 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-[#9A9A9A] transition-all duration-200 hover:bg-[#F4F4F4] hover:text-[#111111]"
+                        className="cursor-pointer absolute start-1 sm:start-3 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-[#9A9A9A] transition-all duration-200 hover:bg-[#F4F4F4] hover:text-[#111111]"
                       >
                         <ChevronLeft className="h-4 w-4" strokeWidth={1.6} />
                       </button>
@@ -290,7 +288,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                         type="button"
                         onClick={isRtl ? goPrev : goNext}
                         aria-label="Next product"
-                        className="cursor-pointer absolute end-1 sm:end-3 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-[#9A9A9A] transition-all duration-200 hover:bg-[#F4F4F4] hover:text-[#111111]"
+                        className="cursor-pointer absolute end-1 sm:end-3 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-[#9A9A9A] transition-all duration-200 hover:bg-[#F4F4F4] hover:text-[#111111]"
                       >
                         <ChevronRight className="h-4 w-4" strokeWidth={1.6} />
                       </button>
@@ -298,7 +296,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                   )}
                 </div>
 
-                {/* Masked text reveal + SEE MORE pill under active product */}
+                {/* Masked text reveal + Details & Cash on Delivery actions */}
                 <div className="mt-4 flex flex-col items-center text-center">
                   <div className="overflow-hidden py-1">
                     <AnimatePresence mode="wait">
@@ -308,7 +306,7 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -32, opacity: 0 }}
                         transition={{ duration: 0.55, ease: EASE }}
-                        className="font-display text-[36px] sm:text-[48px] lg:text-[54px] font-bold uppercase leading-[0.98] tracking-[-0.02em] text-[#111111]"
+                        className="font-display text-[32px] sm:text-[44px] lg:text-[50px] font-bold uppercase leading-[1.05] text-[#111111]"
                       >
                         {activeProduct.name[language]}
                       </motion.h1>
@@ -323,28 +321,42 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -16, opacity: 0 }}
                         transition={{ duration: 0.5, ease: EASE }}
-                        className="text-[11px] sm:text-xs tracking-[0.04em] text-[#9A9A9A] tabular-nums"
+                        className="text-xs sm:text-[13px] text-[#9A9A9A] tabular-nums"
                       >
                         <span>{activeProduct.subtitle[language]}</span>
                         <span className="mx-2 text-[#D4D4D4]">|</span>
-                        <span className="font-medium text-[#111111]">
+                        <span className="font-bold text-[#111111]">
                           {activeProduct.price} {t.hero.currency}
                         </span>
+                        {activeProduct.freeDelivery && (
+                          <>
+                            <span className="mx-2 text-[#D4D4D4]">·</span>
+                            <span className="font-semibold text-[#4A5F34]">
+                              {t.hero.freeDeliveryTag}
+                            </span>
+                          </>
+                        )}
                       </motion.p>
                     </AnimatePresence>
                   </div>
 
-                  <div className="mt-5 flex items-center gap-3">
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                     <button
                       type="button"
                       onClick={() => onOpenProduct(activeProduct)}
-                      className="cursor-pointer rounded-full bg-[#F4F4F4] px-7 py-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#111111] transition-all duration-300 hover:bg-[#111111] hover:text-white"
+                      className="cursor-pointer rounded-full bg-[#F4F4F4] px-7 py-2.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#111111] transition-all duration-300 hover:bg-[#111111] hover:text-white"
                     >
                       {t.hero.seeMore}
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => onOrderProduct(activeProduct)}
+                      className="cursor-pointer rounded-full bg-[#4A5F34] px-7 py-2.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white transition-opacity duration-300 hover:opacity-90"
+                    >
+                      {t.hero.orderNow}
+                    </button>
                   </div>
 
-                  {/* Minimal carousel dots indicator */}
                   {products.length > 1 && (
                     <div className="mt-6 flex items-center gap-2">
                       {products.map((p, idx) => {
@@ -392,7 +404,6 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                       data-cursor="interactive"
                       className="group cursor-pointer flex flex-col"
                     >
-                      {/* Light grey (#F4F4F4) square card */}
                       <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-sm bg-[#F4F4F4] p-6 sm:p-8">
                         <motion.div
                           layoutId={`product-hero-${product.id}`}
@@ -408,20 +419,18 @@ export const HeroShowcase: React.FC<HeroShowcaseProps> = ({
                             alt={product.name[language]}
                             label={product.shortName[language]}
                             accentColor={product.accentColor}
-                            className="h-[84%] w-[84%] drop-shadow-[0_12px_20px_rgba(17,17,17,0.06)]"
+                            className="h-[84%] w-[84%] drop-shadow-[0_14px_22px_rgba(17,17,17,0.08)]"
                           />
                         </motion.div>
 
-                        {/* Subtle floor shadow */}
                         <div
                           aria-hidden="true"
                           className="pointer-events-none absolute bottom-6 h-3 w-[48%] rounded-[100%] bg-[#111111]/12 blur-md transition-transform duration-500 group-hover:scale-90"
                         />
                       </div>
 
-                      {/* Metadata row below card: product name left, price right, tiny subtitle */}
                       <div className="mt-3.5 flex items-baseline justify-between gap-2">
-                        <h2 className="font-display text-sm sm:text-base font-bold uppercase tracking-[-0.01em] text-[#111111]">
+                        <h2 className="font-display text-sm sm:text-base font-bold uppercase text-[#111111]">
                           {product.shortName[language]}
                         </h2>
                         <span className="font-display text-sm sm:text-base font-bold text-[#111111] tabular-nums whitespace-nowrap shrink-0">

@@ -10,9 +10,8 @@ interface ProductVisualProps {
 }
 
 /**
- * Renders the product transparent-background PNG from `/public/images/`
- * with lazy-loading and an elegant minimalist soft-grey rounded fallback
- * in case a custom PNG is missing or still being swapped in.
+ * Renders transparent-background PNG product imagery from `/public/images/`
+ * with lazy-loading and a minimalist soft-grey fallback if an image fails to load.
  */
 export const ProductVisual: React.FC<ProductVisualProps> = ({
   src,
@@ -37,7 +36,7 @@ export const ProductVisual: React.FC<ProductVisualProps> = ({
           {label || alt}
         </span>
         <span className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#9A9A9A]">
-          LORI BOTANICAL
+          LORI BIO
         </span>
       </div>
     );

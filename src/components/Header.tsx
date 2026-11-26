@@ -1,8 +1,9 @@
 import React from 'react';
-import { Search, ShoppingBag } from 'lucide-react';
+import { MessageCircle, Search } from 'lucide-react';
 import { CategoryFilter, Language, PageRoute } from '../types';
 import { Translations } from '../data/translations';
 import { LoriLogo } from './LoriLogo';
+import { WHATSAPP_NUMBER } from './OrderCodModal';
 
 interface HeaderProps {
   language: Language;
@@ -13,8 +14,6 @@ interface HeaderProps {
   onNavigateHome: () => void;
   onNavigateBlog: () => void;
   onOpenSearch: () => void;
-  onOpenCart: () => void;
-  cartCount: number;
   t: Translations;
 }
 
@@ -27,15 +26,13 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigateHome,
   onNavigateBlog,
   onOpenSearch,
-  onOpenCart,
-  cartCount,
   t,
 }) => {
   const navItems: Array<{ label: string; action: () => void; active: boolean }> = [
     {
-      label: t.nav.soap,
-      action: () => onSelectCategoryNav('SOAP'),
-      active: route === 'home' && activeCategory === 'SOAP',
+      label: t.nav.packs,
+      action: () => onSelectCategoryNav('PACKS'),
+      active: route === 'home' && activeCategory === 'PACKS',
     },
     {
       label: t.nav.shampoo,
@@ -48,11 +45,20 @@ export const Header: React.FC<HeaderProps> = ({
       active: route === 'home' && activeCategory === 'OILS',
     },
     {
+      label: t.nav.keratin,
+      action: () => onSelectCategoryNav('KERATIN'),
+      active: route === 'home' && activeCategory === 'KERATIN',
+    },
+    {
       label: t.nav.blog,
       action: onNavigateBlog,
       active: route === 'blog',
     },
   ];
+
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    t.whatsapp.defaultGreeting
+  )}`;
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xs">
@@ -60,14 +66,14 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Left Zone: Minimal uppercase navigation */}
         <nav
           aria-label="Primary navigation"
-          className="flex items-center gap-3 sm:gap-6"
+          className="flex min-w-0 items-center gap-3 overflow-x-auto no-scrollbar sm:gap-5 lg:gap-6"
         >
           {navItems.map((item) => (
             <button
               key={item.label}
               type="button"
               onClick={item.action}
-              className={`cursor-pointer whitespace-nowrap shrink-0 text-[10px] sm:text-[11px] font-medium tracking-[0.12em] uppercase transition-colors duration-200 ${
+              className={`cursor-pointer whitespace-nowrap shrink-0 text-[10px] sm:text-[11px] font-medium tracking-[0.06em] uppercase transition-colors duration-200 ${
                 item.active
                   ? 'text-[#111111] underline underline-offset-4 decoration-[#111111]'
                   : 'text-[#9A9A9A] hover:text-[#111111]'
@@ -90,15 +96,14 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
 
-        {/* Right Zone: Search, Cart (with tiny black dot counter), Language Toggle */}
-        <div className="flex items-center justify-end gap-3 sm:gap-5">
-          {/* Language switcher: EN / FR / AR */}
+        {/* Right Zone: Language Toggle, Search, WhatsApp Contact */}
+        <div className="flex items-center justify-end gap-2.5 sm:gap-4">
           <div
             role="group"
             aria-label="Language"
-            className="flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.08em]"
+            className="flex items-center gap-1.5 text-[10px] sm:text-[11px] tracking-[0.06em]"
           >
-            {(['en', 'fr', 'ar'] as Language[]).map((lang, idx) => (
+            {(['ar', 'fr', 'en'] as Language[]).map((lang, idx) => (
               <React.Fragment key={lang}>
                 {idx > 0 && (
                   <span aria-hidden="true" className="text-[#D4D4D4]">
@@ -130,23 +135,17 @@ export const Header: React.FC<HeaderProps> = ({
             <Search className="h-[17px] w-[17px]" strokeWidth={1.6} />
           </button>
 
-          {/* Cart trigger with tiny black dot counter */}
-          <button
-            type="button"
-            onClick={onOpenCart}
-            aria-label="Open bag"
-            className="cursor-pointer relative flex h-9 w-9 items-center justify-center rounded-full text-[#111111] transition-colors duration-200 hover:bg-[#F4F4F4]"
+          {/* Direct WhatsApp contact icon */}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t.whatsapp.contactTooltip}
+            title={t.whatsapp.contactTooltip}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-[#4A5F34]/12 text-[#4A5F34] transition-colors duration-200 hover:bg-[#4A5F34] hover:text-white"
           >
-            <ShoppingBag className="h-[17px] w-[17px]" strokeWidth={1.6} />
-            {cartCount > 0 && (
-              <span
-                className="absolute top-1 right-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-[#111111] px-1 text-[8px] font-semibold leading-none text-white tabular-nums"
-                aria-label={`${cartCount} items in bag`}
-              >
-                {cartCount}
-              </span>
-            )}
-          </button>
+            <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.7} />
+          </a>
         </div>
       </div>
     </header>

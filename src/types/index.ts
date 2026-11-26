@@ -1,6 +1,6 @@
 export type Language = 'en' | 'fr' | 'ar';
 
-export type CategoryFilter = 'ALL' | 'SOAP' | 'SHAMPOO' | 'OILS';
+export type CategoryFilter = 'ALL' | 'SHAMPOO' | 'OILS' | 'KERATIN' | 'PACKS';
 
 export type ViewMode = 'carousel' | 'grid';
 
@@ -30,11 +30,15 @@ export interface Product {
   shortName: Record<Language, string>;
   subtitle: Record<Language, string>;
   description: Record<Language, string>;
+  needFor: Record<Language, string>;
+  hairRole: Record<Language, string>;
+  howToUse: Record<Language, string>;
+  freeDelivery?: boolean;
   price: number;
   variants: ProductVariant[];
   benefits: Record<Language, string[]>;
   ingredients: Record<Language, string[]>;
-  /** 4 transparent-background PNG paths in /public/images/ */
+  /** Transparent PNG product image paths */
   images: [string, string, string, string];
   imageLabels: Record<Language, [string, string, string, string]>;
   accentColor: string;

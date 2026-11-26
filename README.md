@@ -1,32 +1,28 @@
-# LORI — Natural Hair & Body Care Storefront
+# LORI Bio — Natural Hair Care Storefront
 
-Minimalist single-page e-commerce experience for **LORI**, supporting English, French (`FR`), and right-to-left Arabic (`AR`), with interactive 3D-feel product carousel, grid view, shared-element product detail pages, slide-in Cash-on-Delivery (COD) checkout, and a local `/admin` order console.
+Minimalist single-page e-commerce experience for **LORI Bio**, defaulting to Arabic RTL (`AR`) with `FR` and `EN` support, transparent-background PNG product cutouts, interactive carousel & grid views, hair-care role breakdowns, and direct **Cash on Delivery (الدفع عند الاستلام) via WhatsApp** (`+212 621-572534`).
 
-## 1. Replacing Product Images
+## Products Featured
 
-All 16 transparent-background PNG placeholders live inside `public/images/` (4 views per product):
+1. **الباك الكامل للعناية بالشعر LORI** (`199 DH` · **توصيل مجاني**) — الشامبوان 100 مل + الزيت 100 مل
+2. **شامبوان طبيعي ضد تساقط الشعر LORI** (`110 DH`) — 100 ml
+3. **زيت طبيعي ضد تساقط الشعر LORI** (`135 DH`) — 100 ml
+4. **علاج الكيراتين الطبيعي للشعر LORI** (`150 DH`) — 100 ml
 
-- **Frankincense Soap**: `lori-soap-1.png`, `lori-soap-2.png`, `lori-soap-3.png`, `lori-soap-4.png`
-- **Natural Shampoo**: `lori-shampoo-1.png`, `lori-shampoo-2.png`, `lori-shampoo-3.png`, `lori-shampoo-4.png`
-- **Keratin Oil**: `lori-keratin-1.png`, `lori-keratin-2.png`, `lori-keratin-3.png`, `lori-keratin-4.png`
-- **Hair Loss Oil**: `lori-hairloss-1.png`, `lori-hairloss-2.png`, `lori-hairloss-3.png`, `lori-hairloss-4.png`
+## 1. Transparent PNG Product Images
 
-To swap in your studio photography, drop transparent-background PNG files with those exact filenames into `public/images/`. No code edits are required.
+All 4 transparent-background PNG product images live inside `public/images/`:
+- `/images/lori-pack.png`
+- `/images/lori-shampoo.png`
+- `/images/lori-oil.png`
+- `/images/lori-keratin.png`
 
-Recommended photography style:
-- Pure transparent PNG cutout (`800×800` or square aspect ratio)
-- Soft studio lighting and subtle natural botanical leaves (`#4A5F34`, `#A9BC93`, `#F4C2C2`)
-- Consistent angle across all 4 products
+## 2. Editing Prices, Hair Care Roles & WhatsApp Number
 
-## 2. Editing Prices, Variants & Copy
-
-Open `src/data/products.ts`. Each product in `PRODUCTS` contains:
-- `price`: base display price in Moroccan Dirhams (`DH`)
-- `variants`: size options (e.g. `100g` / `200g`, `250ml` / `500ml`, `50ml` / `100ml`) with individual prices and accent dot colors
-- `name`, `shortName`, `subtitle`, `description`, `benefits`, `ingredients`: localized for `en`, `fr`, and `ar`
+- Edit prices, variants, `needFor`, `hairRole`, and `howToUse` inside `src/data/products.ts`.
+- Edit the WhatsApp destination number (`212621572534`) inside `src/components/OrderCodModal.tsx`.
 
 ## 3. Orders & `/admin` Console
 
-- Customer COD orders are persisted in `localStorage` under `lori_orders_v1`.
-- Navigate to `/admin` (or click **Admin** in the footer) to view orders, update delivery status, and export CSV.
-- Default admin password: `lori2026` (edit `ADMIN_PASSWORD` inside `src/components/AdminOrdersPage.tsx`).
+- All Cash-on-Delivery WhatsApp orders are also logged in `localStorage` under `lori_orders_v1`.
+- Visit `/admin` (or click **الإدارة / Admin** in the footer) with password `lori2026` to review orders and export CSV.

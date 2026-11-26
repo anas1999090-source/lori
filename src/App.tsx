@@ -3,7 +3,6 @@ import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { BLOG_ARTICLES, PRODUCTS } from './data/products';
 import { TRANSLATIONS } from './data/translations';
 import {
-  CartItem,
   CategoryFilter,
   Language,
   Order,
@@ -15,7 +14,8 @@ import {
 import { Header } from './components/Header';
 import { HeroShowcase } from './components/HeroShowcase';
 import { ProductDetailPage } from './components/ProductDetailPage';
-import { CartDrawer } from './components/CartDrawer';
+import { OrderCodModal } from './components/OrderCodModal';
+import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { SearchOverlay } from './components/SearchOverlay';
 import { BlogView } from './components/BlogView';
 import { AdminOrdersPage } from './components/AdminOrdersPage';
@@ -23,10 +23,9 @@ import { CursorFollower } from './components/CursorFollower';
 import { LoriLogo } from './components/LoriLogo';
 
 const STORAGE_KEYS = {
-  cart: 'lori_cart_v1',
   orders: 'lori_orders_v1',
   wishlist: 'lori_wishlist_v1',
-  lang: 'lori_lang_v1',
+  lang: 'lori_lang_v2',
 };
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -41,8 +40,9 @@ function readStorage<T>(key: string, fallback: T): T {
 }
 
 export default function App() {
+  // Default to Arabic (RTL) as requested
   const [language, setLanguage] = useState<Language>(() =>
-    readStorage<Language>(STORAGE_KEYS.lang, 'en')
+    readStorage<Language>(STORAGE_KEYS.lang, 'ar')
   );
   const [route, setRoute] = useState<PageRoute>(() =>
     window.location.pathname === '/admin' ? 'admin' : 'home'
@@ -52,9 +52,6 @@ export default function App() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [selectedProductId, setSelectedProductId] = useState<string>(PRODUCTS[0].id);
 
-  const [cart, setCart] = useState<CartItem[]>(() =>
-    readStorage<CartItem[]>(STORAGE_KEYS.cart, [])
-  );
   const [wishlist, setWishlist] = useState<string[]>(() =>
     readStorage<string[]>(STORAGE_KEYS.wishlist, [])
   );
@@ -62,7 +59,15 @@ export default function App() {
     readStorage<Order[]>(STORAGE_KEYS.orders, [])
   );
 
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [orderModalState, setOrderModalState] = useState<{
+    isOpen: boolean;
+    product: Product | null;
+    variantId?: string;
+  }>({
+    isOpen: false,
+    product: null,
+  });
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [introDone, setIntroDone] = useState<boolean>(() =>
     window.location.pathname === '/admin'
@@ -70,14 +75,12 @@ export default function App() {
 
   const t = TRANSLATIONS[language];
 
-  // Quick fade-in of the LORI logo on initial page load, then reveal carousel
   useEffect(() => {
     if (introDone) return;
-    const timer = window.setTimeout(() => setIntroDone(true), 620);
+    const timer = window.setTimeout(() => setIntroDone(true), 580);
     return () => window.clearTimeout(timer);
   }, [introDone]);
 
-  // Sync HTML dir & lang attributes for RTL Arabic support
   useEffect(() => {
     document.documentElement.lang = language;
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
@@ -87,15 +90,6 @@ export default function App() {
       // ignore
     }
   }, [language]);
-
-  // Persist cart, wishlist, and orders
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify(cart));
-    } catch {
-      // ignore
-    }
-  }, [cart]);
 
   useEffect(() => {
     try {
@@ -113,7 +107,6 @@ export default function App() {
     }
   }, [orders]);
 
-  // Sync browser back/forward for `/admin`
   useEffect(() => {
     const onPopState = () => {
       setRoute(window.location.pathname === '/admin' ? 'admin' : 'home');
@@ -135,11 +128,6 @@ export default function App() {
   const otherProducts = useMemo(
     () => PRODUCTS.filter((p) => p.id !== selectedProduct.id),
     [selectedProduct.id]
-  );
-
-  const cartCount = useMemo(
-    () => cart.reduce((sum, item) => sum + item.quantity, 0),
-    [cart]
   );
 
   const navigateTo = (nextRoute: PageRoute, pushPath?: string) => {
@@ -166,40 +154,12 @@ export default function App() {
     navigateTo('detail', '/');
   };
 
-  const handleAddToCart = (productId: string, variantId: string) => {
-    setCart((prev) => {
-      const existing = prev.find(
-        (item) => item.productId === productId && item.variantId === variantId
-      );
-      if (existing) {
-        return prev.map((item) =>
-          item.productId === productId && item.variantId === variantId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { productId, variantId, quantity: 1 }];
+  const handleOpenOrderModal = (product: Product, variantId?: string) => {
+    setOrderModalState({
+      isOpen: true,
+      product,
+      variantId,
     });
-  };
-
-  const handleUpdateQuantity = (productId: string, variantId: string, delta: number) => {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.productId === productId && item.variantId === variantId
-            ? { ...item, quantity: item.quantity + delta }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  const handleRemoveItem = (productId: string, variantId: string) => {
-    setCart((prev) =>
-      prev.filter(
-        (item) => !(item.productId === productId && item.variantId === variantId)
-      )
-    );
   };
 
   const handleToggleWishlist = (productId: string) => {
@@ -212,7 +172,6 @@ export default function App() {
 
   const handleOrderComplete = (order: Order) => {
     setOrders((prev) => [order, ...prev]);
-    setCart([]);
   };
 
   const handleUpdateOrderStatus = (orderId: string, status: OrderStatus) => {
@@ -261,8 +220,6 @@ export default function App() {
           onNavigateHome={() => navigateTo('home', '/')}
           onNavigateBlog={() => navigateTo('blog', '/')}
           onOpenSearch={() => setIsSearchOpen(true)}
-          onOpenCart={() => setIsCartOpen(true)}
-          cartCount={cartCount}
           t={t}
         />
 
@@ -287,6 +244,7 @@ export default function App() {
                   activeIndex={activeIndex}
                   onChangeIndex={setActiveIndex}
                   onOpenProduct={handleOpenProduct}
+                  onOrderProduct={(p) => handleOpenOrderModal(p)}
                   language={language}
                   t={t}
                 />
@@ -302,7 +260,7 @@ export default function App() {
                 t={t}
                 onBack={() => navigateTo('home', '/')}
                 onSelectProduct={handleOpenProduct}
-                onAddToCart={handleAddToCart}
+                onOrderCod={handleOpenOrderModal}
                 isWishlisted={wishlist.includes(selectedProduct.id)}
                 onToggleWishlist={handleToggleWishlist}
               />
@@ -334,7 +292,7 @@ export default function App() {
         </main>
 
         {/* Quiet minimalist footer */}
-        <footer className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-4 px-4 py-7 text-[10px] uppercase tracking-[0.12em] text-[#9A9A9A] sm:px-8 lg:px-12">
+        <footer className="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-4 px-4 py-7 text-[10px] uppercase tracking-[0.08em] text-[#9A9A9A] sm:px-8 lg:px-12">
           <span>
             © {new Date().getFullYear()} {t.footer.rights}
           </span>
@@ -353,6 +311,9 @@ export default function App() {
           </div>
         </footer>
 
+        {/* Floating WhatsApp Contact Button (+212 621-572534) */}
+        <WhatsAppFloatingButton t={t} />
+
         {/* Search Overlay */}
         <SearchOverlay
           isOpen={isSearchOpen}
@@ -363,14 +324,12 @@ export default function App() {
           t={t}
         />
 
-        {/* Slide-in Cart & COD Checkout Drawer */}
-        <CartDrawer
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          items={cart}
-          products={PRODUCTS}
-          onUpdateQuantity={handleUpdateQuantity}
-          onRemoveItem={handleRemoveItem}
+        {/* Cash on Delivery -> WhatsApp Order Modal */}
+        <OrderCodModal
+          isOpen={orderModalState.isOpen}
+          onClose={() => setOrderModalState((prev) => ({ ...prev, isOpen: false }))}
+          product={orderModalState.product}
+          initialVariantId={orderModalState.variantId}
           onOrderComplete={handleOrderComplete}
           language={language}
           t={t}
