@@ -26,13 +26,13 @@ export const ProductVisual: React.FC<ProductVisualProps> = ({
   if (hasError) {
     return (
       <div
-        className={`flex flex-col items-center justify-center rounded-[2.25rem] bg-[#F4F4F4] p-8 text-center ${className}`}
+        className={`flex flex-col items-center justify-center rounded-[2.25rem] bg-[#F4F4F4] dark:bg-[#171917] p-8 text-center ${className}`}
       >
         <div
           className="mb-4 h-12 w-12 rounded-full opacity-75"
           style={{ backgroundColor: accentColor }}
         />
-        <span className="font-display text-sm uppercase tracking-[0.08em] text-[#111111]">
+        <span className="font-display text-sm uppercase tracking-[0.08em] text-[#111111] dark:text-[#F4F4F4]">
           {label || alt}
         </span>
         <span className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#9A9A9A]">

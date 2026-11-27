@@ -158,17 +158,17 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
             aria-label={t.orderModal.title}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
           >
-            <div className="pointer-events-auto relative flex max-h-[92vh] w-full max-w-[490px] flex-col overflow-hidden rounded-sm bg-white shadow-[0_24px_70px_rgba(0,0,0,0.14)]">
+            <div className="pointer-events-auto relative flex max-h-[92vh] w-full max-w-[490px] flex-col overflow-hidden rounded-sm bg-white dark:bg-[#141614] text-[#111111] dark:text-[#F4F4F4] shadow-[0_24px_70px_rgba(0,0,0,0.14)] dark:shadow-[0_24px_70px_rgba(0,0,0,0.65)]">
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#F2F2F2]">
-                <h2 className="font-display text-xl sm:text-2xl font-bold uppercase text-[#111111]">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#F2F2F2] dark:border-[#232623]">
+                <h2 className="font-display text-xl sm:text-2xl font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
                   {submittedOrder ? t.orderModal.successTitle : t.orderModal.title}
                 </h2>
                 <button
                   type="button"
                   onClick={onClose}
                   aria-label={t.orderModal.close}
-                  className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-full bg-[#F4F4F4] text-[#111111] hover:bg-[#EAEAEA]"
+                  className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-full bg-[#F4F4F4] dark:bg-[#1D201D] text-[#111111] dark:text-[#F4F4F4] hover:bg-[#EAEAEA] dark:hover:bg-[#272A27]"
                 >
                   <X className="h-4 w-4" strokeWidth={1.6} />
                 </button>
@@ -178,39 +178,39 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
               <div className="flex-1 overflow-y-auto px-6 py-5">
                 {submittedOrder ? (
                   <div className="flex flex-col items-center py-4 text-center">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#A9BC93]/30 text-[#4A5F34]">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#A9BC93]/30 text-[#4A5F34] dark:text-[#A9BC93]">
                       <Check className="h-6 w-6" strokeWidth={2} />
                     </div>
 
-                    <h3 className="mt-5 font-display text-2xl font-bold uppercase text-[#111111]">
+                    <h3 className="mt-5 font-display text-2xl font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
                       {t.orderModal.successTitle}
                     </h3>
-                    <p className="mt-2 max-w-sm text-xs leading-relaxed text-[#7A7A7A]">
+                    <p className="mt-2 max-w-sm text-xs leading-relaxed text-[#7A7A7A] dark:text-[#A1A5A1]">
                       {t.orderModal.successSub}
                     </p>
 
-                    <div className="mt-6 w-full rounded-sm bg-[#F4F4F4] p-4 text-start text-xs space-y-2">
+                    <div className="mt-6 w-full rounded-sm bg-[#F4F4F4] dark:bg-[#1B1E1B] p-4 text-start text-xs space-y-2">
                       <div className="flex justify-between">
                         <span className="text-[#9A9A9A]">{t.orderModal.orderRef}</span>
-                        <span className="font-semibold text-[#111111] tabular-nums">
+                        <span className="font-semibold text-[#111111] dark:text-[#F4F4F4] tabular-nums">
                           {submittedOrder.order.id}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[#9A9A9A]">{product.shortName[language]}</span>
-                        <span className="text-[#111111]">
+                        <span className="text-[#111111] dark:text-[#F4F4F4]">
                           {quantity} × {activeVariant.label}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[#9A9A9A]">{t.orderModal.delivery}</span>
-                        <span className="font-medium text-[#4A5F34]">
+                        <span className="font-medium text-[#4A5F34] dark:text-[#A9BC93]">
                           {deliveryFee === 0
                             ? t.orderModal.freeDelivery
                             : `${deliveryFee} ${t.hero.currency}`}
                         </span>
                       </div>
-                      <div className="flex justify-between pt-2 border-t border-[#E6E6E6] font-semibold">
+                      <div className="flex justify-between pt-2 border-t border-[#E6E6E6] dark:border-[#2A2D2A] font-semibold">
                         <span>{t.orderModal.total}</span>
                         <span className="tabular-nums">
                           {total} {t.hero.currency}
@@ -231,8 +231,8 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                 ) : (
                   <form id="cod-whatsapp-form" onSubmit={handleSubmit} className="space-y-4">
                     {/* Selected Product Summary */}
-                    <div className="flex items-center gap-4 rounded-sm bg-[#F4F4F4] p-3.5">
-                      <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-sm bg-white p-2">
+                    <div className="flex items-center gap-4 rounded-sm bg-[#F4F4F4] dark:bg-[#1B1E1B] p-3.5">
+                      <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-sm bg-white dark:bg-[#141614] p-2">
                         <ProductVisual
                           src={product.images[0]}
                           alt={product.name[language]}
@@ -242,10 +242,10 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                         />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="font-display text-sm sm:text-base font-bold uppercase text-[#111111]">
+                        <h3 className="font-display text-sm sm:text-base font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
                           {product.name[language]}
                         </h3>
-                        <p className="mt-0.5 text-[11px] font-medium text-[#4A5F34]">
+                        <p className="mt-0.5 text-[11px] font-medium text-[#4A5F34] dark:text-[#A9BC93]">
                           {activeVariant.price} {t.hero.currency}
                           {isFreeDelivery && ` · ${t.orderModal.freeDelivery}`}
                         </p>
@@ -256,7 +256,7 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                             aria-label={t.pdp.size}
                             value={activeVariant.id}
                             onChange={(e) => setSelectedVariantId(e.target.value)}
-                            className="cursor-pointer rounded-full bg-white px-3 py-1 text-[11px] text-[#111111] focus:outline-none"
+                            className="cursor-pointer rounded-full bg-white dark:bg-[#141614] px-3 py-1 text-[11px] text-[#111111] dark:text-[#F4F4F4] focus:outline-none"
                           >
                             {product.variants.map((v) => (
                               <option key={v.id} value={v.id}>
@@ -265,12 +265,12 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                             ))}
                           </select>
 
-                          <div className="inline-flex items-center rounded-full bg-white px-2 py-0.5">
+                          <div className="inline-flex items-center rounded-full bg-white dark:bg-[#141614] px-2 py-0.5">
                             <button
                               type="button"
                               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                               aria-label="Decrease quantity"
-                              className="cursor-pointer p-1 text-[#111111] hover:opacity-60"
+                              className="cursor-pointer p-1 text-[#111111] dark:text-[#F4F4F4] hover:opacity-60"
                             >
                               <Minus className="h-3 w-3" />
                             </button>
@@ -281,7 +281,7 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                               type="button"
                               onClick={() => setQuantity((q) => q + 1)}
                               aria-label="Increase quantity"
-                              className="cursor-pointer p-1 text-[#111111] hover:opacity-60"
+                              className="cursor-pointer p-1 text-[#111111] dark:text-[#F4F4F4] hover:opacity-60"
                             >
                               <Plus className="h-3 w-3" />
                             </button>
@@ -290,13 +290,13 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                       </div>
                     </div>
 
-                    <div className="rounded-sm bg-[#A9BC93]/20 px-4 py-2.5 text-[11px] font-medium text-[#4A5F34]">
+                    <div className="rounded-sm bg-[#A9BC93]/20 dark:bg-[#A9BC93]/15 px-4 py-2.5 text-[11px] font-medium text-[#4A5F34] dark:text-[#A9BC93]">
                       {t.orderModal.codBadge}
                     </div>
 
                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                       <div>
-                        <label className="mb-1 block text-[11px] font-medium text-[#666666]">
+                        <label className="mb-1 block text-[11px] font-medium text-[#666666] dark:text-[#A1A5A1]">
                           {t.orderModal.fullName}
                         </label>
                         <input
@@ -304,12 +304,12 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                           required
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
-                          className="w-full rounded-sm bg-[#F4F4F4] px-3.5 py-2.5 text-xs text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111]"
+                          className="w-full rounded-sm bg-[#F4F4F4] dark:bg-[#1D201D] px-3.5 py-2.5 text-xs text-[#111111] dark:text-[#F4F4F4] focus:outline-none focus:ring-1 focus:ring-[#111111] dark:focus:ring-[#F4F4F4]"
                         />
                       </div>
 
                       <div>
-                        <label className="mb-1 block text-[11px] font-medium text-[#666666]">
+                        <label className="mb-1 block text-[11px] font-medium text-[#666666] dark:text-[#A1A5A1]">
                           {t.orderModal.phone}
                         </label>
                         <input
@@ -319,13 +319,13 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="06 00 00 00 00"
-                          className="w-full rounded-sm bg-[#F4F4F4] px-3.5 py-2.5 text-xs text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111]"
+                          className="w-full rounded-sm bg-[#F4F4F4] dark:bg-[#1D201D] px-3.5 py-2.5 text-xs text-[#111111] dark:text-[#F4F4F4] placeholder-[#9A9A9A] focus:outline-none focus:ring-1 focus:ring-[#111111] dark:focus:ring-[#F4F4F4]"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-[11px] font-medium text-[#666666]">
+                      <label className="mb-1 block text-[11px] font-medium text-[#666666] dark:text-[#A1A5A1]">
                         {t.orderModal.city}
                       </label>
                       <input
@@ -333,12 +333,12 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                         required
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        className="w-full rounded-sm bg-[#F4F4F4] px-3.5 py-2.5 text-xs text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111]"
+                        className="w-full rounded-sm bg-[#F4F4F4] dark:bg-[#1D201D] px-3.5 py-2.5 text-xs text-[#111111] dark:text-[#F4F4F4] focus:outline-none focus:ring-1 focus:ring-[#111111] dark:focus:ring-[#F4F4F4]"
                       />
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-[11px] font-medium text-[#666666]">
+                      <label className="mb-1 block text-[11px] font-medium text-[#666666] dark:text-[#A1A5A1]">
                         {t.orderModal.address}
                       </label>
                       <textarea
@@ -346,16 +346,16 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                         rows={2}
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
-                        className="w-full resize-none rounded-sm bg-[#F4F4F4] px-3.5 py-2 text-xs text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111]"
+                        className="w-full resize-none rounded-sm bg-[#F4F4F4] dark:bg-[#1D201D] px-3.5 py-2 text-xs text-[#111111] dark:text-[#F4F4F4] focus:outline-none focus:ring-1 focus:ring-[#111111] dark:focus:ring-[#F4F4F4]"
                       />
                     </div>
 
                     {formError && (
-                      <p className="text-[11px] text-[#9E2A2B]">{formError}</p>
+                      <p className="text-[11px] text-[#9E2A2B] dark:text-[#F4C2C2]">{formError}</p>
                     )}
 
                     {/* Price Summary */}
-                    <div className="space-y-1.5 border-t border-[#F0F0F0] pt-3 text-xs">
+                    <div className="space-y-1.5 border-t border-[#F0F0F0] dark:border-[#232623] pt-3 text-xs">
                       <div className="flex justify-between text-[#9A9A9A]">
                         <span>{t.orderModal.subtotal}</span>
                         <span className="tabular-nums">
@@ -364,13 +364,13 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
                       </div>
                       <div className="flex justify-between text-[#9A9A9A]">
                         <span>{t.orderModal.delivery}</span>
-                        <span className={deliveryFee === 0 ? 'font-medium text-[#4A5F34]' : 'tabular-nums'}>
+                        <span className={deliveryFee === 0 ? 'font-medium text-[#4A5F34] dark:text-[#A9BC93]' : 'tabular-nums'}>
                           {deliveryFee === 0
                             ? t.orderModal.freeDelivery
                             : t.orderModal.standardDelivery}
                         </span>
                       </div>
-                      <div className="flex justify-between pt-1.5 text-sm font-bold text-[#111111]">
+                      <div className="flex justify-between pt-1.5 text-sm font-bold text-[#111111] dark:text-[#F4F4F4]">
                         <span>{t.orderModal.total}</span>
                         <span className="font-display text-lg tabular-nums">
                           {total} {t.hero.currency}

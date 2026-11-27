@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
@@ -19,6 +20,11 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
+  html.dark {
+    background-color: #0d0e0d;
+    color: #f4f4f4;
+  }
+
   html[dir='rtl'] body {
     font-family: 'Cairo', 'Inter', sans-serif;
   }
@@ -26,6 +32,11 @@
   body {
     overflow-x: hidden;
     background-color: #ffffff;
+    transition: background-color 300ms ease, color 300ms ease;
+  }
+
+  html.dark body {
+    background-color: #0d0e0d;
   }
 }
 
@@ -61,6 +72,18 @@ html[dir='rtl'] .font-body {
 .category-solid {
   color: #111111;
   -webkit-text-stroke: 0px transparent;
+}
+
+html.dark .category-outlined {
+  -webkit-text-stroke-color: #3f433f;
+}
+
+html.dark .category-outlined:hover {
+  -webkit-text-stroke-color: #f4f4f4;
+}
+
+html.dark .category-solid {
+  color: #f4f4f4;
 }
 
 /* Gentle idle float for active hero product */

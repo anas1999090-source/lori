@@ -29,7 +29,7 @@ export const LoriLogo: React.FC<LoriLogoProps> = ({
       viewBox="0 0 210 92"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${dimensions} select-none ${className}`}
+      className={`${dimensions} select-none text-[#111111] dark:text-[#F4F4F4] ${className}`}
       aria-label="LORI"
     >
       {/* Overlapping semi-transparent botanical leaves on the left */}
@@ -75,7 +75,7 @@ export const LoriLogo: React.FC<LoriLogoProps> = ({
       </g>
 
       {/* Ultra-light geometric lowercase wordmark: l o r i */}
-      <g stroke="#111111" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+      <g stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
         {/* l */}
         <path d="M62 24 V60 C62 68, 66 72, 74 71" />
         {/* o */}
@@ -86,13 +86,13 @@ export const LoriLogo: React.FC<LoriLogoProps> = ({
         {/* i */}
         <path d="M156 38 V71" />
       </g>
-      <circle cx="156" cy="24" r="2.6" fill="#111111" />
+      <circle cx="156" cy="24" r="2.6" fill="currentColor" />
 
       {showBio && (
         <text
           x="166"
           y="71"
-          fill="#111111"
+          fill="currentColor"
           fontFamily="Inter, sans-serif"
           fontSize="13"
           fontWeight="300"

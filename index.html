@@ -21,8 +21,15 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Oswald:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script>
+      try {
+        if (JSON.parse(localStorage.getItem('lori_theme_v1') || '"light"') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
   </head>
-  <body class="bg-white text-[#111111] antialiased selection:bg-[#A9BC93]/30 selection:text-[#111111]">
+  <body class="bg-white dark:bg-[#0D0E0D] text-[#111111] dark:text-[#F4F4F4] antialiased selection:bg-[#A9BC93]/30 selection:text-[#111111] dark:selection:text-[#F4F4F4]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

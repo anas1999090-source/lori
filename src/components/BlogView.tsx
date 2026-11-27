@@ -36,9 +36,9 @@ export const BlogView: React.FC<BlogViewProps> = ({
       <button
         type="button"
         onClick={onBackHome}
-        className="cursor-pointer group inline-flex items-center gap-2.5 text-[11px] uppercase tracking-[0.12em] text-[#9A9A9A] hover:text-[#111111]"
+        className="cursor-pointer group inline-flex items-center gap-2.5 text-[11px] uppercase tracking-[0.12em] text-[#9A9A9A] hover:text-[#111111] dark:hover:text-[#F4F4F4]"
       >
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F4F4F4] text-[#111111] transition-transform duration-300 group-hover:scale-105">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F4F4F4] dark:bg-[#171917] text-[#111111] dark:text-[#F4F4F4] transition-transform duration-300 group-hover:scale-105">
           {isRtl ? (
             <ArrowRight className="h-4 w-4" strokeWidth={1.6} />
           ) : (
@@ -49,7 +49,7 @@ export const BlogView: React.FC<BlogViewProps> = ({
       </button>
 
       <header className="mt-10 max-w-2xl">
-        <h1 className="font-display text-4xl sm:text-5xl font-bold uppercase leading-[0.98] text-[#111111]">
+        <h1 className="font-display text-4xl sm:text-5xl font-bold uppercase leading-[0.98] text-[#111111] dark:text-[#F4F4F4]">
           {t.blog.title}
         </h1>
         <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#9A9A9A]">
@@ -63,7 +63,7 @@ export const BlogView: React.FC<BlogViewProps> = ({
           return (
             <article
               key={article.id}
-              className="flex flex-col justify-between rounded-sm bg-[#F4F4F4] p-7"
+              className="flex flex-col justify-between rounded-sm bg-[#F4F4F4] dark:bg-[#171917] p-7"
             >
               <div>
                 <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-[#9A9A9A]">
@@ -76,15 +76,15 @@ export const BlogView: React.FC<BlogViewProps> = ({
                   <span>{article.readTime[language]}</span>
                 </div>
 
-                <h2 className="mt-4 font-display text-2xl font-bold uppercase leading-[1.08] text-[#111111]">
+                <h2 className="mt-4 font-display text-2xl font-bold uppercase leading-[1.08] text-[#111111] dark:text-[#F4F4F4]">
                   {article.title[language]}
                 </h2>
 
-                <p className="mt-3 text-xs leading-relaxed text-[#666666]">
+                <p className="mt-3 text-xs leading-relaxed text-[#666666] dark:text-[#B4B8B4]">
                   {article.excerpt[language]}
                 </p>
 
-                <div className="mt-4 space-y-2.5 text-[11px] leading-relaxed text-[#8A8A8A]">
+                <div className="mt-4 space-y-2.5 text-[11px] leading-relaxed text-[#8A8A8A] dark:text-[#9FA49F]">
                   {article.body[language].map((para) => (
                     <p key={para}>{para}</p>
                   ))}
@@ -95,7 +95,7 @@ export const BlogView: React.FC<BlogViewProps> = ({
                 <button
                   type="button"
                   onClick={() => onOpenProduct(relatedProduct)}
-                  className="cursor-pointer mt-7 self-start rounded-full bg-white px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#111111] transition-colors hover:bg-[#111111] hover:text-white"
+                  className="cursor-pointer mt-7 self-start rounded-full bg-white dark:bg-[#111311] px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#111111] dark:text-[#F4F4F4] transition-colors hover:bg-[#111111] hover:text-white dark:hover:bg-[#F4F4F4] dark:hover:text-[#0D0E0D]"
                 >
                   {t.blog.shopFormula} · {relatedProduct.shortName[language]}
                 </button>

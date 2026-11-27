@@ -60,8 +60,8 @@ export const CategorySidebar: React.FC<CategorySidebarProps> = ({
               onClick={() => onSelectProductSublink(product)}
               className={`cursor-pointer whitespace-nowrap shrink-0 text-[11px] transition-colors duration-200 ${
                 isSelected
-                  ? 'text-[#111111] underline underline-offset-4 decoration-[#111111]'
-                  : 'text-[#9A9A9A] hover:text-[#111111]'
+                  ? 'text-[#111111] dark:text-[#F4F4F4] underline underline-offset-4 decoration-[#111111] dark:decoration-[#F4F4F4]'
+                  : 'text-[#9A9A9A] hover:text-[#111111] dark:hover:text-[#F4F4F4]'
               }`}
             >
               {product.shortName[language]}
@@ -100,8 +100,8 @@ export const CategorySidebar: React.FC<CategorySidebarProps> = ({
                         onClick={() => onSelectProductSublink(product)}
                         className={`cursor-pointer text-[11px] leading-snug tracking-[0.02em] transition-colors duration-200 ${
                           isSelected
-                            ? 'font-medium text-[#111111] underline underline-offset-4 decoration-[#111111]'
-                            : 'text-[#9A9A9A] hover:text-[#111111]'
+                            ? 'font-medium text-[#111111] dark:text-[#F4F4F4] underline underline-offset-4 decoration-[#111111] dark:decoration-[#F4F4F4]'
+                            : 'text-[#9A9A9A] hover:text-[#111111] dark:hover:text-[#F4F4F4]'
                         }`}
                       >
                         {product.shortName[language]}

@@ -62,9 +62,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           type="button"
           onClick={onBack}
           aria-label={t.pdp.back}
-          className="cursor-pointer group inline-flex items-center gap-2.5 text-[11px] uppercase tracking-[0.08em] text-[#9A9A9A] transition-colors duration-200 hover:text-[#111111]"
+          className="cursor-pointer group inline-flex items-center gap-2.5 text-[11px] uppercase tracking-[0.08em] text-[#9A9A9A] transition-colors duration-200 hover:text-[#111111] dark:hover:text-[#F4F4F4]"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4F4F4] text-[#111111] transition-transform duration-300 group-hover:scale-105">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4F4F4] dark:bg-[#171917] text-[#111111] dark:text-[#F4F4F4] transition-transform duration-300 group-hover:scale-105">
             {isRtl ? (
               <ArrowRight className="h-4 w-4" strokeWidth={1.6} />
             ) : (
@@ -77,18 +77,18 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
       {/* Main 2-column PDP grid */}
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-14">
-        {/* Left: Tall white card with vertically stacked transparent PNG gallery */}
-        <div className="relative rounded-sm bg-white shadow-[0_14px_50px_rgba(17,17,17,0.045)]">
+        {/* Left: Tall white/dark card with vertically stacked transparent PNG gallery */}
+        <div className="relative rounded-sm bg-white dark:bg-[#141614] shadow-[0_14px_50px_rgba(17,17,17,0.045)] dark:shadow-[0_14px_50px_rgba(0,0,0,0.45)]">
           <div
             aria-hidden="true"
-            className="pointer-events-none hidden lg:block absolute inset-x-0 top-0 z-10 h-10 bg-gradient-to-b from-white to-transparent"
+            className="pointer-events-none hidden lg:block absolute inset-x-0 top-0 z-10 h-10 bg-gradient-to-b from-white dark:from-[#141614] to-transparent"
           />
 
           <div className="gallery-scroll-mask flex flex-col gap-6 p-6 sm:p-10 lg:max-h-[calc(100vh-145px)] lg:overflow-y-auto">
             {product.images.map((imgSrc, index) => (
               <div
                 key={`${product.id}-${index}`}
-                className="relative flex flex-col items-center justify-center overflow-hidden rounded-sm bg-[#F4F4F4]/65 px-6 py-10 sm:py-14"
+                className="relative flex flex-col items-center justify-center overflow-hidden rounded-sm bg-[#F4F4F4]/65 dark:bg-[#1B1E1B] px-6 py-10 sm:py-14"
               >
                 {index === 0 ? (
                   <motion.div
@@ -128,7 +128,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
           <div
             aria-hidden="true"
-            className="pointer-events-none hidden lg:block absolute inset-x-0 bottom-0 z-10 h-12 bg-gradient-to-t from-white to-transparent"
+            className="pointer-events-none hidden lg:block absolute inset-x-0 bottom-0 z-10 h-12 bg-gradient-to-t from-white dark:from-[#141614] to-transparent"
           />
         </div>
 
@@ -137,20 +137,20 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           {/* Title + Category + Price */}
           <div className="flex flex-wrap items-baseline justify-between gap-4">
             <div className="flex flex-wrap items-baseline gap-2.5">
-              <h1 className="font-display text-[30px] sm:text-[38px] font-bold uppercase leading-[1.06] text-[#111111]">
+              <h1 className="font-display text-[30px] sm:text-[38px] font-bold uppercase leading-[1.06] text-[#111111] dark:text-[#F4F4F4]">
                 {product.name[language]}
               </h1>
-              <span className="font-display text-[20px] sm:text-[24px] font-bold uppercase leading-none text-[#CCCCCC]">
+              <span className="font-display text-[20px] sm:text-[24px] font-bold uppercase leading-none text-[#CCCCCC] dark:text-[#444844]">
                 {product.categoryLabel[language]}
               </span>
             </div>
 
             <div className="flex flex-col items-end">
-              <span className="font-display text-[28px] sm:text-[32px] font-bold uppercase leading-none text-[#111111] tabular-nums whitespace-nowrap">
+              <span className="font-display text-[28px] sm:text-[32px] font-bold uppercase leading-none text-[#111111] dark:text-[#F4F4F4] tabular-nums whitespace-nowrap">
                 {activeVariant.price} {t.hero.currency}
               </span>
               {product.freeDelivery && (
-                <span className="mt-1 text-[11px] font-semibold text-[#4A5F34]">
+                <span className="mt-1 text-[11px] font-semibold text-[#4A5F34] dark:text-[#A9BC93]">
                   {t.pdp.freeDeliveryBadge}
                 </span>
               )}
@@ -161,7 +161,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
           {/* Variant dots + Size dropdown + CASH ON DELIVERY button + Wishlist */}
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 rounded-full bg-[#F4F4F4] px-3 py-2">
+            <div className="flex items-center gap-2 rounded-full bg-[#F4F4F4] dark:bg-[#171917] px-3 py-2">
               {product.variants.map((variant) => {
                 const isSelected = variant.id === activeVariant.id;
                 return (
@@ -173,7 +173,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     title={variant.label}
                     className={`cursor-pointer h-4 w-4 rounded-full transition-transform duration-200 ${
                       isSelected
-                        ? 'scale-115 ring-2 ring-[#111111] ring-offset-2 ring-offset-[#F4F4F4]'
+                        ? 'scale-115 ring-2 ring-[#111111] dark:ring-[#F4F4F4] ring-offset-2 ring-offset-[#F4F4F4] dark:ring-offset-[#171917]'
                         : 'opacity-70 hover:opacity-100'
                     }`}
                     style={{ backgroundColor: variant.dotColor }}
@@ -187,7 +187,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 aria-label={t.pdp.size}
                 value={activeVariant.id}
                 onChange={(e) => setSelectedVariantId(e.target.value)}
-                className="cursor-pointer appearance-none rounded-full bg-[#F4F4F4] py-2.5 ps-4 pe-8 text-[11px] font-medium text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111]"
+                className="cursor-pointer appearance-none rounded-full bg-[#F4F4F4] dark:bg-[#171917] py-2.5 ps-4 pe-8 text-[11px] font-medium text-[#111111] dark:text-[#F4F4F4] focus:outline-none focus:ring-1 focus:ring-[#111111] dark:focus:ring-[#F4F4F4]"
               >
                 {product.variants.map((v) => (
                   <option key={v.id} value={v.id}>
@@ -218,8 +218,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               title={isWishlisted ? t.pdp.wishlistSaved : t.pdp.wishlistAdd}
               className={`cursor-pointer flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200 ${
                 isWishlisted
-                  ? 'bg-[#F4C2C2]/45 text-[#111111]'
-                  : 'bg-[#F4F4F4] text-[#111111] hover:bg-[#EAEAEA]'
+                  ? 'bg-[#F4C2C2]/45 text-[#111111] dark:text-[#F4F4F4]'
+                  : 'bg-[#F4F4F4] dark:bg-[#171917] text-[#111111] dark:text-[#F4F4F4] hover:bg-[#EAEAEA] dark:hover:bg-[#222522]'
               }`}
             >
               <Heart
@@ -231,48 +231,48 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           </div>
 
           {/* Short overview */}
-          <p className="mt-6 text-[13px] leading-[1.8] text-[#666666]">
+          <p className="mt-6 text-[13px] leading-[1.8] text-[#666666] dark:text-[#B4B8B4]">
             {product.description[language]}
           </p>
 
-          {/* Always-visible Product Role & Purpose Block (لماذا يُستعمل ودوره في الشعر) */}
-          <div className="mt-6 space-y-4 rounded-sm bg-[#F4F4F4] p-5">
+          {/* Always-visible Product Role & Purpose Block */}
+          <div className="mt-6 space-y-4 rounded-sm bg-[#F4F4F4] dark:bg-[#171917] p-5">
             <div>
-              <h2 className="text-xs font-bold text-[#111111]">
+              <h2 className="text-xs font-bold text-[#111111] dark:text-[#F4F4F4]">
                 {t.pdp.needForTitle}
               </h2>
-              <p className="mt-1 text-xs leading-[1.8] text-[#555555]">
+              <p className="mt-1 text-xs leading-[1.8] text-[#555555] dark:text-[#B4B8B4]">
                 {product.needFor[language]}
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#E6E6E6]">
-              <h2 className="text-xs font-bold text-[#111111]">
+            <div className="pt-3 border-t border-[#E6E6E6] dark:border-[#262926]">
+              <h2 className="text-xs font-bold text-[#111111] dark:text-[#F4F4F4]">
                 {t.pdp.hairRoleTitle}
               </h2>
-              <p className="mt-1 text-xs leading-[1.8] text-[#555555]">
+              <p className="mt-1 text-xs leading-[1.8] text-[#555555] dark:text-[#B4B8B4]">
                 {product.hairRole[language]}
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#E6E6E6]">
-              <h2 className="text-xs font-bold text-[#4A5F34]">
+            <div className="pt-3 border-t border-[#E6E6E6] dark:border-[#262926]">
+              <h2 className="text-xs font-bold text-[#4A5F34] dark:text-[#A9BC93]">
                 {t.pdp.howToUseTitle}
               </h2>
-              <p className="mt-1 text-xs leading-[1.8] text-[#555555]">
+              <p className="mt-1 text-xs leading-[1.8] text-[#555555] dark:text-[#B4B8B4]">
                 {product.howToUse[language]}
               </p>
             </div>
           </div>
 
           {/* 3 Smooth Accordions */}
-          <div className="mt-6 divide-y divide-[#EFEFEF]">
+          <div className="mt-6 divide-y divide-[#EFEFEF] dark:divide-[#232623]">
             {/* 1. Details */}
             <div className="py-4">
               <button
                 type="button"
                 onClick={() => toggleAccordion('details')}
-                className="cursor-pointer flex w-full items-center justify-between py-1 text-start text-xs font-medium text-[#111111]"
+                className="cursor-pointer flex w-full items-center justify-between py-1 text-start text-xs font-medium text-[#111111] dark:text-[#F4F4F4]"
               >
                 <span>{t.pdp.details}</span>
                 <ChevronDown
@@ -291,9 +291,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     transition={{ duration: 0.4, ease: EASE }}
                     className="overflow-hidden"
                   >
-                    <div className="pt-4 pb-2 space-y-4 text-[12px] leading-relaxed text-[#666666]">
+                    <div className="pt-4 pb-2 space-y-4 text-[12px] leading-relaxed text-[#666666] dark:text-[#B4B8B4]">
                       <div>
-                        <p className="mb-1.5 text-[11px] font-semibold text-[#111111]">
+                        <p className="mb-1.5 text-[11px] font-semibold text-[#111111] dark:text-[#F4F4F4]">
                           {t.pdp.benefitsTitle}
                         </p>
                         <ul className="space-y-1">
@@ -310,7 +310,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                         </ul>
                       </div>
                       <div>
-                        <p className="mb-1.5 text-[11px] font-semibold text-[#111111]">
+                        <p className="mb-1.5 text-[11px] font-semibold text-[#111111] dark:text-[#F4F4F4]">
                           {t.pdp.ingredientsTitle}
                         </p>
                         <ul className="space-y-1 text-[#9A9A9A]">
@@ -330,7 +330,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               <button
                 type="button"
                 onClick={() => toggleAccordion('delivery')}
-                className="cursor-pointer flex w-full items-center justify-between py-1 text-start text-xs font-medium text-[#111111]"
+                className="cursor-pointer flex w-full items-center justify-between py-1 text-start text-xs font-medium text-[#111111] dark:text-[#F4F4F4]"
               >
                 <span>{t.pdp.delivery}</span>
                 <ChevronDown
@@ -349,7 +349,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     transition={{ duration: 0.4, ease: EASE }}
                     className="overflow-hidden"
                   >
-                    <div className="pt-4 pb-2 space-y-2 text-[12px] leading-relaxed text-[#666666]">
+                    <div className="pt-4 pb-2 space-y-2 text-[12px] leading-relaxed text-[#666666] dark:text-[#B4B8B4]">
                       {t.pdp.deliveryBody.map((line) => (
                         <p key={line}>{line}</p>
                       ))}
@@ -364,7 +364,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               <button
                 type="button"
                 onClick={() => toggleAccordion('reviews')}
-                className="cursor-pointer flex w-full items-center justify-between py-1 text-start text-xs font-medium text-[#111111]"
+                className="cursor-pointer flex w-full items-center justify-between py-1 text-start text-xs font-medium text-[#111111] dark:text-[#F4F4F4]"
               >
                 <span>
                   {t.pdp.reviews} ({product.reviewCount})
@@ -389,20 +389,20 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                       {product.reviews.map((rev) => (
                         <div key={rev.id} className="space-y-1">
                           <div className="flex items-center justify-between text-[11px]">
-                            <span className="font-medium text-[#111111]">
+                            <span className="font-medium text-[#111111] dark:text-[#F4F4F4]">
                               {rev.author} · <span className="text-[#9A9A9A]">{rev.city}</span>
                             </span>
-                            <div className="flex items-center gap-0.5 text-[#4A5F34]">
+                            <div className="flex items-center gap-0.5 text-[#4A5F34] dark:text-[#A9BC93]">
                               {Array.from({ length: rev.rating }).map((_, idx) => (
                                 <Star
                                   key={idx}
-                                  className="h-3 w-3 fill-[#4A5F34]"
+                                  className="h-3 w-3 fill-[#4A5F34] dark:fill-[#A9BC93]"
                                   strokeWidth={1.5}
                                 />
                               ))}
                             </div>
                           </div>
-                          <p className="text-[12px] leading-relaxed text-[#666666]">
+                          <p className="text-[12px] leading-relaxed text-[#666666] dark:text-[#B4B8B4]">
                             {rev.comment[language]}
                           </p>
                         </div>
@@ -418,7 +418,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
       {/* Bottom: "You may also like" row */}
       <section className="mt-24">
-        <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase text-[#111111]">
+        <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
           {t.pdp.youMayAlsoLike}
         </h2>
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -429,7 +429,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               data-cursor="interactive"
               className="group cursor-pointer flex flex-col"
             >
-              <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-sm bg-[#F4F4F4] p-8">
+              <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-sm bg-[#F4F4F4] dark:bg-[#171917] p-8">
                 <ProductVisual
                   src={item.images[0]}
                   alt={item.name[language]}
@@ -439,10 +439,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 />
               </div>
               <div className="mt-3 flex items-baseline justify-between gap-2">
-                <h3 className="font-display text-sm sm:text-base font-bold uppercase text-[#111111]">
+                <h3 className="font-display text-sm sm:text-base font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
                   {item.shortName[language]}
                 </h3>
-                <span className="font-display text-sm sm:text-base font-bold text-[#111111] tabular-nums">
+                <span className="font-display text-sm sm:text-base font-bold text-[#111111] dark:text-[#F4F4F4] tabular-nums">
                   {item.price} {t.hero.currency}
                 </span>
               </div>

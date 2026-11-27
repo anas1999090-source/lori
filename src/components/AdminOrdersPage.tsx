@@ -89,11 +89,11 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
   if (!isUnlocked) {
     return (
       <section className="mx-auto flex min-h-[calc(100vh-140px)] max-w-md flex-col items-center justify-center px-4">
-        <div className="w-full rounded-sm bg-[#F4F4F4] p-8 text-center">
-          <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#111111]">
+        <div className="w-full rounded-sm bg-[#F4F4F4] dark:bg-[#171917] p-8 text-center">
+          <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-white dark:bg-[#111311] text-[#111111] dark:text-[#F4F4F4]">
             <Lock className="h-4 w-4" strokeWidth={1.6} />
           </div>
-          <h1 className="mt-5 font-display text-3xl font-bold uppercase text-[#111111]">
+          <h1 className="mt-5 font-display text-3xl font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
             {t.admin.title}
           </h1>
           <p className="mt-1.5 text-xs text-[#9A9A9A]">{t.admin.subtitle}</p>
@@ -107,12 +107,12 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
               value={passwordInput}
               onChange={(e) => setPasswordInput(e.target.value)}
               autoFocus
-              className="w-full rounded-sm bg-white px-3.5 py-2.5 text-xs text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111]"
+              className="w-full rounded-sm bg-white dark:bg-[#111311] px-3.5 py-2.5 text-xs text-[#111111] dark:text-[#F4F4F4] focus:outline-none focus:ring-1 focus:ring-[#111111] dark:focus:ring-[#F4F4F4]"
             />
-            {error && <p className="text-[11px] text-[#9E2A2B]">{error}</p>}
+            {error && <p className="text-[11px] text-[#9E2A2B] dark:text-[#F4C2C2]">{error}</p>}
             <button
               type="submit"
-              className="cursor-pointer w-full rounded-full bg-[#111111] py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition-opacity hover:opacity-85"
+              className="cursor-pointer w-full rounded-full bg-[#111111] dark:bg-[#F4F4F4] py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white dark:text-[#0D0E0D] transition-opacity hover:opacity-85"
             >
               {t.admin.unlock}
             </button>
@@ -121,7 +121,7 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
           <button
             type="button"
             onClick={onBackToStore}
-            className="cursor-pointer mt-6 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-[#9A9A9A] hover:text-[#111111]"
+            className="cursor-pointer mt-6 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-[#9A9A9A] hover:text-[#111111] dark:hover:text-[#F4F4F4]"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>{t.admin.backToStore}</span>
@@ -138,12 +138,12 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
           <button
             type="button"
             onClick={onBackToStore}
-            className="cursor-pointer mb-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.12em] text-[#9A9A9A] hover:text-[#111111]"
+            className="cursor-pointer mb-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.12em] text-[#9A9A9A] hover:text-[#111111] dark:hover:text-[#F4F4F4]"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>{t.admin.backToStore}</span>
           </button>
-          <h1 className="font-display text-3xl sm:text-4xl font-bold uppercase text-[#111111]">
+          <h1 className="font-display text-3xl sm:text-4xl font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
             {t.admin.title}
           </h1>
           <p className="mt-1 text-xs text-[#9A9A9A]">{t.admin.subtitle}</p>
@@ -154,7 +154,7 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
             <button
               type="button"
               onClick={handleExportCsv}
-              className="cursor-pointer inline-flex items-center gap-2 rounded-full bg-[#F4F4F4] px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#111111] hover:bg-[#EAEAEA]"
+              className="cursor-pointer inline-flex items-center gap-2 rounded-full bg-[#F4F4F4] dark:bg-[#171917] px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#111111] dark:text-[#F4F4F4] hover:bg-[#EAEAEA] dark:hover:bg-[#222522]"
             >
               <Download className="h-3.5 w-3.5" />
               <span>{t.admin.exportCsv}</span>
@@ -163,7 +163,7 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
           <button
             type="button"
             onClick={handleLock}
-            className="cursor-pointer rounded-full bg-[#111111] px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:opacity-85"
+            className="cursor-pointer rounded-full bg-[#111111] dark:bg-[#F4F4F4] px-5 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-white dark:text-[#0D0E0D] hover:opacity-85"
           >
             {t.admin.logout}
           </button>
@@ -172,19 +172,19 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
 
       {/* Summary strip */}
       <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-md">
-        <div className="rounded-sm bg-[#F4F4F4] p-5">
+        <div className="rounded-sm bg-[#F4F4F4] dark:bg-[#171917] p-5">
           <p className="text-[10px] uppercase tracking-[0.14em] text-[#9A9A9A]">
             {t.admin.totalOrders}
           </p>
-          <p className="mt-1 font-display text-3xl font-bold text-[#111111] tabular-nums">
+          <p className="mt-1 font-display text-3xl font-bold text-[#111111] dark:text-[#F4F4F4] tabular-nums">
             {orders.length}
           </p>
         </div>
-        <div className="rounded-sm bg-[#F4F4F4] p-5">
+        <div className="rounded-sm bg-[#F4F4F4] dark:bg-[#171917] p-5">
           <p className="text-[10px] uppercase tracking-[0.14em] text-[#9A9A9A]">
             {t.admin.revenue}
           </p>
-          <p className="mt-1 font-display text-3xl font-bold text-[#111111] tabular-nums">
+          <p className="mt-1 font-display text-3xl font-bold text-[#111111] dark:text-[#F4F4F4] tabular-nums">
             {totalRevenue} {t.hero.currency}
           </p>
         </div>
@@ -192,14 +192,14 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
 
       {/* Orders table */}
       {orders.length === 0 ? (
-        <div className="mt-10 rounded-sm bg-[#F4F4F4] p-12 text-center text-xs text-[#9A9A9A]">
+        <div className="mt-10 rounded-sm bg-[#F4F4F4] dark:bg-[#171917] p-12 text-center text-xs text-[#9A9A9A]">
           {t.admin.noOrders}
         </div>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-sm bg-[#F4F4F4]/60">
+        <div className="mt-8 overflow-x-auto rounded-sm bg-[#F4F4F4]/60 dark:bg-[#171917]">
           <table className="w-full min-w-[760px] text-start text-xs">
             <thead>
-              <tr className="border-b border-[#EAEAEA] text-[10px] uppercase tracking-[0.14em] text-[#9A9A9A]">
+              <tr className="border-b border-[#EAEAEA] dark:border-[#262926] text-[10px] uppercase tracking-[0.14em] text-[#9A9A9A]">
                 <th className="px-5 py-4 text-start font-medium">ID</th>
                 <th className="px-5 py-4 text-start font-medium">{t.admin.date}</th>
                 <th className="px-5 py-4 text-start font-medium">{t.admin.customer}</th>
@@ -209,24 +209,24 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
                 <th className="px-5 py-4 text-end font-medium"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#EFEFEF]">
+            <tbody className="divide-y divide-[#EFEFEF] dark:divide-[#232623]">
               {orders.map((order) => (
-                <tr key={order.id} className="bg-white/80">
-                  <td className="px-5 py-4 font-semibold text-[#111111] tabular-nums">
+                <tr key={order.id} className="bg-white/80 dark:bg-[#141614]">
+                  <td className="px-5 py-4 font-semibold text-[#111111] dark:text-[#F4F4F4] tabular-nums">
                     {order.id}
                   </td>
                   <td className="px-5 py-4 text-[#9A9A9A] tabular-nums">
                     {new Date(order.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-5 py-4">
-                    <p className="font-medium text-[#111111]">{order.fullName}</p>
+                    <p className="font-medium text-[#111111] dark:text-[#F4F4F4]">{order.fullName}</p>
                     <p className="text-[11px] text-[#9A9A9A]">{order.phone}</p>
                     <p className="text-[11px] text-[#9A9A9A]">
                       {order.city} — {order.address}
                     </p>
                   </td>
                   <td className="px-5 py-4">
-                    <ul className="space-y-1 text-[11px] text-[#555555]">
+                    <ul className="space-y-1 text-[11px] text-[#555555] dark:text-[#B4B8B4]">
                       {order.items.map((i, idx) => (
                         <li key={idx}>
                           {i.quantity}× {i.productName} ({i.variantLabel})
@@ -234,7 +234,7 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
                       ))}
                     </ul>
                   </td>
-                  <td className="px-5 py-4 font-display text-base font-bold text-[#111111] tabular-nums">
+                  <td className="px-5 py-4 font-display text-base font-bold text-[#111111] dark:text-[#F4F4F4] tabular-nums">
                     {order.total} {t.hero.currency}
                   </td>
                   <td className="px-5 py-4">
@@ -243,7 +243,7 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
                       onChange={(e) =>
                         onUpdateOrderStatus(order.id, e.target.value as OrderStatus)
                       }
-                      className="cursor-pointer rounded-full bg-[#F4F4F4] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.06em] text-[#111111] focus:outline-none"
+                      className="cursor-pointer rounded-full bg-[#F4F4F4] dark:bg-[#1D201D] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.06em] text-[#111111] dark:text-[#F4F4F4] focus:outline-none"
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
@@ -256,7 +256,7 @@ export const AdminOrdersPage: React.FC<AdminOrdersPageProps> = ({
                       type="button"
                       onClick={() => onDeleteOrder(order.id)}
                       aria-label={t.admin.clearOrder}
-                      className="cursor-pointer p-1.5 text-[#9A9A9A] hover:text-[#111111]"
+                      className="cursor-pointer p-1.5 text-[#9A9A9A] hover:text-[#111111] dark:hover:text-[#F4F4F4]"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>

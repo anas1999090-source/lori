@@ -80,10 +80,10 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -24, opacity: 0 }}
             transition={{ duration: 0.45, ease: EASE }}
-            className="fixed inset-x-0 top-0 z-50 bg-white px-4 pb-10 pt-6 shadow-[0_20px_60px_rgba(0,0,0,0.06)] sm:px-8 lg:px-12"
+            className="fixed inset-x-0 top-0 z-50 bg-white dark:bg-[#141614] px-4 pb-10 pt-6 shadow-[0_20px_60px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:px-8 lg:px-12"
           >
             <div className="mx-auto max-w-[1000px]">
-              <div className="flex items-center gap-3 pb-4 border-b border-[#EFEFEF]">
+              <div className="flex items-center gap-3 pb-4 border-b border-[#EFEFEF] dark:border-[#252825]">
                 <Search className="h-4 w-4 text-[#9A9A9A]" strokeWidth={1.6} />
                 <input
                   ref={inputRef}
@@ -91,13 +91,13 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={t.search.placeholder}
-                  className="w-full bg-transparent text-sm text-[#111111] placeholder-[#9A9A9A] focus:outline-none"
+                  className="w-full bg-transparent text-sm text-[#111111] dark:text-[#F4F4F4] placeholder-[#9A9A9A] focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={onClose}
                   aria-label={t.search.close}
-                  className="cursor-pointer flex h-8 w-8 items-center justify-center rounded-full bg-[#F4F4F4] text-[#111111] hover:bg-[#EAEAEA]"
+                  className="cursor-pointer flex h-8 w-8 items-center justify-center rounded-full bg-[#F4F4F4] dark:bg-[#1D201D] text-[#111111] dark:text-[#F4F4F4] hover:bg-[#EAEAEA] dark:hover:bg-[#272A27]"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -119,7 +119,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
                       }}
                       className="cursor-pointer group flex flex-col text-start"
                     >
-                      <div className="flex aspect-square w-full items-center justify-center rounded-sm bg-[#F4F4F4] p-4">
+                      <div className="flex aspect-square w-full items-center justify-center rounded-sm bg-[#F4F4F4] dark:bg-[#1B1E1B] p-4">
                         <ProductVisual
                           src={product.images[0]}
                           alt={product.name[language]}
@@ -128,7 +128,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
                           className="h-[80%] w-[80%] transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
-                      <span className="mt-2.5 font-display text-sm font-bold uppercase text-[#111111]">
+                      <span className="mt-2.5 font-display text-sm font-bold uppercase text-[#111111] dark:text-[#F4F4F4]">
                         {product.shortName[language]}
                       </span>
                       <span className="text-[11px] text-[#9A9A9A] tabular-nums">

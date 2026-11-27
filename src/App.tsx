@@ -26,6 +26,7 @@ const STORAGE_KEYS = {
   orders: 'lori_orders_v1',
   wishlist: 'lori_wishlist_v1',
   lang: 'lori_lang_v2',
+  theme: 'lori_theme_v1',
 };
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -43,6 +44,9 @@ export default function App() {
   // Default to Arabic (RTL) as requested
   const [language, setLanguage] = useState<Language>(() =>
     readStorage<Language>(STORAGE_KEYS.lang, 'ar')
+  );
+  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
+    readStorage<'light' | 'dark'>(STORAGE_KEYS.theme, 'light')
   );
   const [route, setRoute] = useState<PageRoute>(() =>
     window.location.pathname === '/admin' ? 'admin' : 'home'
@@ -90,6 +94,15 @@ export default function App() {
       // ignore
     }
   }, [language]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    try {
+      localStorage.setItem(STORAGE_KEYS.theme, JSON.stringify(theme));
+    } catch {
+      // ignore
+    }
+  }, [theme]);
 
   useEffect(() => {
     try {
@@ -186,7 +199,7 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative flex min-h-screen flex-col bg-white text-[#111111]">
+      <div className="relative flex min-h-screen flex-col bg-white dark:bg-[#0D0E0D] text-[#111111] dark:text-[#F4F4F4] transition-colors duration-300">
         <CursorFollower />
 
         {/* Quick initial logo intro fade-in */}
@@ -197,7 +210,7 @@ export default function App() {
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.45, ease: EASE }}
-              className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-white dark:bg-[#0D0E0D]"
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.96 }}
@@ -214,6 +227,8 @@ export default function App() {
         <Header
           language={language}
           onChangeLanguage={setLanguage}
+          theme={theme}
+          onToggleTheme={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
           activeCategory={activeCategory}
           route={route}
           onSelectCategoryNav={handleSelectCategory}
@@ -304,7 +319,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => navigateTo('admin', '/admin')}
-              className="cursor-pointer uppercase transition-colors hover:text-[#111111]"
+              className="cursor-pointer uppercase transition-colors hover:text-[#111111] dark:hover:text-[#F4F4F4]"
             >
               {t.footer.admin}
             </button>
