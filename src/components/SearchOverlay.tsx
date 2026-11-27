@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Search, X } from 'lucide-react';
 import { Language, Product } from '../types';
 import { Translations } from '../data/translations';
 import { ProductVisual } from './ProductVisual';
+import { trackSearch } from '../lib/metaTracking';
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -44,23 +45,38 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
   }, [isOpen, onClose]);
 
   const normalized = query.trim().toLowerCase();
-  const filtered = normalized
-    ? products.filter((p) => {
-        const haystack = [
-          p.name.en,
-          p.name.fr,
-          p.name.ar,
-          p.subtitle.en,
-          p.subtitle.fr,
-          p.subtitle.ar,
-          p.description[language],
-          ...p.ingredients[language],
-        ]
-          .join(' ')
-          .toLowerCase();
-        return haystack.includes(normalized);
-      })
-    : products;
+  const filtered = useMemo(
+    () =>
+      normalized
+        ? products.filter((p) => {
+            const haystack = [
+              p.name.en,
+              p.name.fr,
+              p.name.ar,
+              p.subtitle.en,
+              p.subtitle.fr,
+              p.subtitle.ar,
+              p.description[language],
+              ...p.ingredients[language],
+            ]
+              .join(' ')
+              .toLowerCase();
+            return haystack.includes(normalized);
+          })
+        : products,
+    [normalized, products, language]
+  );
+
+  useEffect(() => {
+    if (!isOpen || normalized.length < 2) return;
+    const timer = window.setTimeout(() => {
+      trackSearch(
+        query.trim(),
+        filtered.map((p) => p.id)
+      );
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [isOpen, normalized, query, filtered]);
 
   return (
     <AnimatePresence>

@@ -4,6 +4,7 @@ import { Check, MessageCircle, Minus, Plus, X } from 'lucide-react';
 import { Language, Order, Product } from '../types';
 import { Translations } from '../data/translations';
 import { ProductVisual } from './ProductVisual';
+import { trackPurchase } from '../lib/metaTracking';
 
 export const WHATSAPP_NUMBER = '212621572534';
 export const WHATSAPP_DISPLAY = '+212 621-572534';
@@ -122,6 +123,7 @@ export const OrderCodModal: React.FC<OrderCodModalProps> = ({
 
     const waUrl = buildWhatsappUrl(order);
     onOrderComplete(order);
+    trackPurchase(order);
     setSubmittedOrder({ order, waUrl });
     setFormError('');
 

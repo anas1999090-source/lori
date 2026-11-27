@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ChevronDown, Heart, MessageCircle, Star } from '
 import { Language, Product } from '../types';
 import { Translations } from '../data/translations';
 import { ProductVisual } from './ProductVisual';
+import { trackViewContent } from '../lib/metaTracking';
 
 interface ProductDetailPageProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductDetailPageProps {
   onOrderCod: (product: Product, variantId: string) => void;
   isWishlisted: boolean;
   onToggleWishlist: (productId: string) => void;
+  consentGranted: boolean;
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -29,6 +31,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   onOrderCod,
   isWishlisted,
   onToggleWishlist,
+  consentGranted,
 }) => {
   const isRtl = language === 'ar';
   const [selectedVariantId, setSelectedVariantId] = useState(product.variants[0].id);
@@ -40,6 +43,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     setSelectedVariantId(product.variants[0].id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [product]);
+
+  useEffect(() => {
+    if (!consentGranted) return;
+    trackViewContent(product, product.variants[0].price);
+  }, [product, consentGranted]);
 
   const activeVariant =
     product.variants.find((v) => v.id === selectedVariantId) || product.variants[0];

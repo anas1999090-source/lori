@@ -21,6 +21,15 @@ import { BlogView } from './components/BlogView';
 import { AdminOrdersPage } from './components/AdminOrdersPage';
 import { CursorFollower } from './components/CursorFollower';
 import { LoriLogo } from './components/LoriLogo';
+import { ConsentBanner } from './components/ConsentBanner';
+import {
+  TrackingConsent,
+  applyTrackingConsent,
+  getStoredConsent,
+  resetViewContentDedupe,
+  trackInitiateCheckout,
+  trackPageView,
+} from './lib/metaTracking';
 
 const STORAGE_KEYS = {
   orders: 'lori_orders_v1',
@@ -73,6 +82,10 @@ export default function App() {
   });
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [consent, setConsent] = useState<TrackingConsent | null>(() => getStoredConsent());
+  const [consentBannerOpen, setConsentBannerOpen] = useState<boolean>(
+    () => getStoredConsent() === null
+  );
   const [introDone, setIntroDone] = useState<boolean>(() =>
     window.location.pathname === '/admin'
   );
@@ -128,6 +141,18 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
+  const currentRouteKey =
+    route === 'detail' ? `detail:${selectedProductId}` : route;
+
+  useEffect(() => {
+    if (route !== 'detail') {
+      resetViewContentDedupe();
+    }
+    if (consent === 'granted') {
+      trackPageView(currentRouteKey);
+    }
+  }, [route, currentRouteKey, consent]);
+
   const filteredProducts = useMemo(() => {
     if (activeCategory === 'ALL') return PRODUCTS;
     return PRODUCTS.filter((p) => p.category === activeCategory);
@@ -168,11 +193,28 @@ export default function App() {
   };
 
   const handleOpenOrderModal = (product: Product, variantId?: string) => {
+    const chosenVariant =
+      product.variants.find((v) => v.id === variantId) || product.variants[0];
+    trackInitiateCheckout(product, chosenVariant.price, 1);
+
     setOrderModalState({
       isOpen: true,
       product,
       variantId,
     });
+  };
+
+  const handleAcceptConsent = () => {
+    applyTrackingConsent('granted');
+    setConsent('granted');
+    setConsentBannerOpen(false);
+    trackPageView(currentRouteKey, true);
+  };
+
+  const handleDeclineConsent = () => {
+    applyTrackingConsent('denied');
+    setConsent('denied');
+    setConsentBannerOpen(false);
   };
 
   const handleToggleWishlist = (productId: string) => {
@@ -278,6 +320,7 @@ export default function App() {
                 onOrderCod={handleOpenOrderModal}
                 isWishlisted={wishlist.includes(selectedProduct.id)}
                 onToggleWishlist={handleToggleWishlist}
+                consentGranted={consent === 'granted'}
               />
             )}
 
@@ -323,11 +366,31 @@ export default function App() {
             >
               {t.footer.admin}
             </button>
+            <span aria-hidden="true">·</span>
+            <button
+              type="button"
+              onClick={() => setConsentBannerOpen(true)}
+              className="cursor-pointer uppercase transition-colors hover:text-[#111111] dark:hover:text-[#F4F4F4]"
+            >
+              {language === 'ar'
+                ? 'الخصوصية'
+                : language === 'fr'
+                  ? 'Confidentialité'
+                  : 'Privacy'}
+            </button>
           </div>
         </footer>
 
         {/* Floating WhatsApp Contact Button (+212 621-572534) */}
         <WhatsAppFloatingButton t={t} />
+
+        {/* Privacy Consent Banner */}
+        <ConsentBanner
+          visible={consentBannerOpen}
+          language={language}
+          onAccept={handleAcceptConsent}
+          onDecline={handleDeclineConsent}
+        />
 
         {/* Search Overlay */}
         <SearchOverlay

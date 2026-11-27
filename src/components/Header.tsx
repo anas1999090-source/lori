@@ -4,6 +4,7 @@ import { CategoryFilter, Language, PageRoute } from '../types';
 import { Translations } from '../data/translations';
 import { LoriLogo } from './LoriLogo';
 import { WHATSAPP_NUMBER } from './OrderCodModal';
+import { trackContact } from '../lib/metaTracking';
 
 interface HeaderProps {
   language: Language;
@@ -168,6 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackContact('whatsapp_header')}
             aria-label={t.whatsapp.contactTooltip}
             title={t.whatsapp.contactTooltip}
             className="flex h-9 w-9 items-center justify-center rounded-full bg-[#4A5F34]/12 dark:bg-[#A9BC93]/18 text-[#4A5F34] dark:text-[#A9BC93] transition-colors duration-200 hover:bg-[#4A5F34] hover:text-white dark:hover:bg-[#A9BC93] dark:hover:text-[#0D0E0D]"

@@ -29,6 +29,34 @@
         }
       } catch (e) {}
     </script>
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      (function () {
+        if (window.__loriMetaPixelInitialized) return;
+        window.__loriMetaPixelInitialized = true;
+        var consented = false;
+        try {
+          consented = JSON.parse(localStorage.getItem('lori_consent_v1') || 'null') === 'granted';
+        } catch (e) {}
+        window.fbq('consent', consented ? 'grant' : 'revoke');
+        window.fbq('init', '2905831479803678');
+      })();
+    </script>
   </head>
   <body class="bg-white dark:bg-[#0D0E0D] text-[#111111] dark:text-[#F4F4F4] antialiased selection:bg-[#A9BC93]/30 selection:text-[#111111] dark:selection:text-[#F4F4F4]">
     <div id="root"></div>
